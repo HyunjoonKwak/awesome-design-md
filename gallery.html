@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Awesome DESIGN.md · Gallery</title>
+<style>
+  :root {
+    --bg: #0b0b0f;
+    --surface: #14141b;
+    --surface-2: #1c1c26;
+    --border: #2a2a38;
+    --text: #f2f2f5;
+    --text-dim: #9b9baa;
+    --accent: #10b981;
+    --danger: #ef4444;
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+  [data-theme="light"] {
+    --bg: #fafaf7;
+    --surface: #ffffff;
+    --surface-2: #f3f3ee;
+    --border: #e5e5de;
+    --text: #1a1a1a;
+    --text-dim: #6b6b6b;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    transition: background .2s, color .2s; }
+  a { color: inherit; }
+
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in oklab, var(--bg) 85%, transparent);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .header-inner {
+    max-width: 1400px; margin: 0 auto; padding: 16px 24px;
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+  }
+  .logo { font-weight: 700; font-size: 16px; letter-spacing: -.02em; }
+  .logo span { color: var(--accent); }
+  .count { color: var(--text-dim); font-size: 13px; }
+  .spacer { flex: 1; }
+
+  input.search {
+    background: var(--surface); border: 1px solid var(--border); color: var(--text);
+    padding: 10px 14px; border-radius: var(--radius-sm); font-size: 14px;
+    min-width: 220px; outline: none;
+  }
+  input.search:focus { border-color: var(--accent); }
+
+  .btn {
+    background: var(--surface); border: 1px solid var(--border); color: var(--text);
+    padding: 10px 14px; border-radius: var(--radius-sm); cursor: pointer;
+    font-size: 13px; transition: all .15s;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn.primary:hover { opacity: .9; color: #fff; }
+
+  .filters {
+    max-width: 1400px; margin: 0 auto; padding: 14px 24px 0;
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .chip {
+    background: transparent; border: 1px solid var(--border); color: var(--text-dim);
+    padding: 6px 14px; border-radius: 999px; cursor: pointer; font-size: 12.5px;
+    transition: all .15s; white-space: nowrap;
+  }
+  .chip:hover { color: var(--text); border-color: var(--text-dim); }
+  .chip.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+  main {
+    max-width: 1400px; margin: 0 auto; padding: 24px;
+  }
+  .grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; cursor: pointer;
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+    display: flex; flex-direction: column;
+  }
+  .card:hover {
+    transform: translateY(-2px); border-color: var(--accent);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  }
+  .card-preview {
+    aspect-ratio: 16 / 10; position: relative; overflow: hidden;
+    background: linear-gradient(135deg, var(--surface-2), var(--surface));
+    display: flex; align-items: center; justify-content: center;
+  }
+  .card-preview .mark {
+    font-size: 32px; font-weight: 800; letter-spacing: -.04em;
+    color: var(--text); opacity: .92;
+  }
+  .card-preview::after {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.08), transparent 60%);
+    pointer-events: none;
+  }
+  .card-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+  .card-title { font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
+  .card-cat { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: .06em; }
+  .card-desc { font-size: 12.5px; color: var(--text-dim); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+  /* Modal */
+  .modal {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(0,0,0,.72); backdrop-filter: blur(6px);
+    display: none; align-items: center; justify-content: center; padding: 24px;
+  }
+  .modal.open { display: flex; }
+  .modal-inner {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); width: 100%; max-width: 1100px; height: 90vh;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .modal-head {
+    padding: 14px 20px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .modal-head h2 { margin: 0; font-size: 18px; letter-spacing: -.01em; }
+  .modal-head .sub { color: var(--text-dim); font-size: 13px; }
+  .modal-body { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .modal-tabs {
+    display: flex; gap: 4px; padding: 10px 20px; border-bottom: 1px solid var(--border);
+    background: var(--surface-2);
+  }
+  .tab {
+    background: transparent; border: 0; padding: 8px 14px;
+    border-radius: var(--radius-sm); cursor: pointer; font-size: 13px;
+    color: var(--text-dim);
+  }
+  .tab.active { background: var(--surface); color: var(--text); }
+  .iframe-wrap { flex: 1; position: relative; background: var(--bg); }
+  .iframe-wrap iframe { width: 100%; height: 100%; border: 0; background: #fff; }
+  .iframe-fallback {
+    position: absolute; inset: 0; display: none; flex-direction: column;
+    align-items: center; justify-content: center; gap: 12px; padding: 40px;
+    text-align: center; color: var(--text-dim);
+  }
+  .iframe-fallback.show { display: flex; }
+
+  .install {
+    display: flex; gap: 8px; align-items: center;
+    background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 8px 12px;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 13px;
+  }
+  .install code { flex: 1; }
+
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: var(--text); color: var(--bg); padding: 10px 18px;
+    border-radius: 999px; font-size: 13px; font-weight: 500;
+    opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s;
+    z-index: 200;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(-4px); }
+
+  @media (max-width: 640px) {
+    .header-inner { padding: 12px 16px; }
+    .filters { padding: 10px 16px 0; }
+    main { padding: 16px; }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+    .modal { padding: 0; }
+    .modal-inner { height: 100vh; border-radius: 0; }
+  }
+</style>
+</head>
+<body data-theme="dark">
+  <header>
+    <div class="header-inner">
+      <div class="logo">Awesome <span>DESIGN.md</span></div>
+      <div class="count" id="count"></div>
+      <div class="spacer"></div>
+      <input class="search" id="search" type="text" placeholder="이름/설명 검색…" />
+      <button class="btn" id="theme-toggle" title="Toggle theme">◐</button>
+    </div>
+    <div class="filters" id="filters"></div>
+    <div style="height: 14px"></div>
+  </header>
+
+  <main>
+    <div class="grid" id="grid"></div>
+  </main>
+
+  <div class="modal" id="modal">
+    <div class="modal-inner">
+      <div class="modal-head">
+        <h2 id="m-title"></h2>
+        <span class="sub" id="m-cat"></span>
+        <div class="spacer" style="flex:1"></div>
+        <div class="install">
+          <code id="m-install"></code>
+          <button class="btn" data-copy>복사</button>
+        </div>
+        <a class="btn primary" id="m-open" target="_blank" rel="noopener">원본 열기 ↗</a>
+        <button class="btn" id="m-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-tabs">
+          <button class="tab active" data-mode="light">Light</button>
+          <button class="tab" data-mode="dark">Dark</button>
+          <button class="tab" data-mode="md">DESIGN.md 원문</button>
+        </div>
+        <div class="iframe-wrap">
+          <iframe id="m-frame" referrerpolicy="no-referrer" loading="lazy"></iframe>
+          <div class="iframe-fallback" id="m-fallback">
+            <div>이 페이지는 iframe 임베드를 차단합니다.</div>
+            <a class="btn primary" id="m-fallback-link" target="_blank" rel="noopener">새 탭에서 열기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">복사됨</div>
+
+<script>
+const DATA = [
+  // AI & LLM Platforms
+  { cat: "AI & LLM", name: "Claude", slug: "claude", desc: "Anthropic's AI assistant. Warm terracotta accent, clean editorial layout", color: "#d97757" },
+  { cat: "AI & LLM", name: "Cohere", slug: "cohere", desc: "Enterprise AI platform. Vibrant gradients, data-rich dashboard aesthetic", color: "#ff7759" },
+  { cat: "AI & LLM", name: "ElevenLabs", slug: "elevenlabs", desc: "AI voice platform. Dark cinematic UI, audio-waveform aesthetics", color: "#1a1a1a" },
+  { cat: "AI & LLM", name: "Minimax", slug: "minimax", desc: "AI model provider. Bold dark interface with neon accents", color: "#00ff88" },
+  { cat: "AI & LLM", name: "Mistral AI", slug: "mistral.ai", desc: "Open-weight LLM provider. French-engineered minimalism, purple-toned", color: "#ff7000" },
+  { cat: "AI & LLM", name: "Ollama", slug: "ollama", desc: "Run LLMs locally. Terminal-first, monochrome simplicity", color: "#222" },
+  { cat: "AI & LLM", name: "OpenCode AI", slug: "opencode.ai", desc: "AI coding platform. Developer-centric dark theme", color: "#f59e0b" },
+  { cat: "AI & LLM", name: "Replicate", slug: "replicate", desc: "Run ML models via API. Clean white canvas, code-forward", color: "#000" },
+  { cat: "AI & LLM", name: "RunwayML", slug: "runwayml", desc: "AI video generation. Cinematic dark UI, media-rich layout", color: "#101010" },
+  { cat: "AI & LLM", name: "Together AI", slug: "together.ai", desc: "Open-source AI infrastructure. Technical, blueprint-style design", color: "#0f52ba" },
+  { cat: "AI & LLM", name: "VoltAgent", slug: "voltagent", desc: "AI agent framework. Void-black canvas, emerald accent, terminal-native", color: "#10b981" },
+  { cat: "AI & LLM", name: "xAI", slug: "x.ai", desc: "Elon Musk's AI lab. Stark monochrome, futuristic minimalism", color: "#111" },
+
+  // Developer Tools & IDEs
+  { cat: "Developer Tools", name: "Cursor", slug: "cursor", desc: "AI-first code editor. Sleek dark interface, gradient accents", color: "#0a0a0a" },
+  { cat: "Developer Tools", name: "Expo", slug: "expo", desc: "React Native platform. Dark theme, tight letter-spacing, code-centric", color: "#000020" },
+  { cat: "Developer Tools", name: "Lovable", slug: "lovable", desc: "AI full-stack builder. Playful gradients, friendly dev aesthetic", color: "#ff4d8f" },
+  { cat: "Developer Tools", name: "Raycast", slug: "raycast", desc: "Productivity launcher. Sleek dark chrome, vibrant gradient accents", color: "#ff6363" },
+  { cat: "Developer Tools", name: "Superhuman", slug: "superhuman", desc: "Fast email client. Premium dark UI, keyboard-first, purple glow", color: "#6c5ce7" },
+  { cat: "Developer Tools", name: "Vercel", slug: "vercel", desc: "Frontend deployment. Black and white precision, Geist font", color: "#000" },
+  { cat: "Developer Tools", name: "Warp", slug: "warp", desc: "Modern terminal. Dark IDE-like interface, block-based command UI", color: "#1b1b2b" },
+
+  // Backend, Database & DevOps
+  { cat: "Backend & DevOps", name: "ClickHouse", slug: "clickhouse", desc: "Fast analytics database. Yellow-accented, technical documentation style", color: "#ffd700" },
+  { cat: "Backend & DevOps", name: "Composio", slug: "composio", desc: "Tool integration platform. Modern dark with colorful integration icons", color: "#6366f1" },
+  { cat: "Backend & DevOps", name: "HashiCorp", slug: "hashicorp", desc: "Infrastructure automation. Enterprise-clean, black and white", color: "#000" },
+  { cat: "Backend & DevOps", name: "MongoDB", slug: "mongodb", desc: "Document database. Green leaf branding, developer documentation focus", color: "#47a248" },
+  { cat: "Backend & DevOps", name: "PostHog", slug: "posthog", desc: "Product analytics. Playful hedgehog branding, developer-friendly dark UI", color: "#1d4aff" },
+  { cat: "Backend & DevOps", name: "Sanity", slug: "sanity", desc: "Headless CMS. Red accent, content-first editorial layout", color: "#f03e2f" },
+  { cat: "Backend & DevOps", name: "Sentry", slug: "sentry", desc: "Error monitoring. Dark dashboard, data-dense, pink-purple accent", color: "#362d59" },
+  { cat: "Backend & DevOps", name: "Supabase", slug: "supabase", desc: "Open-source Firebase alternative. Dark emerald theme, code-first", color: "#3ecf8e" },
+
+  // Productivity & SaaS
+  { cat: "Productivity", name: "Cal.com", slug: "cal", desc: "Open-source scheduling. Clean neutral UI, developer-oriented simplicity", color: "#292929" },
+  { cat: "Productivity", name: "Intercom", slug: "intercom", desc: "Customer messaging. Friendly blue palette, conversational UI patterns", color: "#286efa" },
+  { cat: "Productivity", name: "Linear", slug: "linear.app", desc: "Project management for engineers. Ultra-minimal, precise, purple accent", color: "#5e6ad2" },
+  { cat: "Productivity", name: "Mintlify", slug: "mintlify", desc: "Documentation platform. Clean, green-accented, reading-optimized", color: "#22c55e" },
+  { cat: "Productivity", name: "Notion", slug: "notion", desc: "All-in-one workspace. Warm minimalism, serif headings, soft surfaces", color: "#e9e5de" },
+  { cat: "Productivity", name: "Resend", slug: "resend", desc: "Email API for developers. Minimal dark theme, monospace accents", color: "#000" },
+  { cat: "Productivity", name: "Zapier", slug: "zapier", desc: "Automation platform. Warm orange, friendly illustration-driven", color: "#ff4a00" },
+
+  // Design & Creative Tools
+  { cat: "Design", name: "Airtable", slug: "airtable", desc: "Spreadsheet-database hybrid. Colorful, friendly, structured data aesthetic", color: "#fcb400" },
+  { cat: "Design", name: "Clay", slug: "clay", desc: "Creative agency. Organic shapes, soft gradients, art-directed layout", color: "#f9a8d4" },
+  { cat: "Design", name: "Figma", slug: "figma", desc: "Collaborative design tool. Vibrant multi-color, playful yet professional", color: "#a259ff" },
+  { cat: "Design", name: "Framer", slug: "framer", desc: "Website builder. Bold black and blue, motion-first, design-forward", color: "#0055ff" },
+  { cat: "Design", name: "Miro", slug: "miro", desc: "Visual collaboration. Bright yellow accent, infinite canvas aesthetic", color: "#ffd02f" },
+  { cat: "Design", name: "Webflow", slug: "webflow", desc: "Visual web builder. Blue-accented, polished marketing site aesthetic", color: "#4353ff" },
+
+  // Fintech & Crypto
+  { cat: "Fintech & Crypto", name: "Binance", slug: "binance", desc: "Crypto exchange. Bold Binance Yellow on monochrome, trading-floor urgency", color: "#f3ba2f" },
+  { cat: "Fintech & Crypto", name: "Coinbase", slug: "coinbase", desc: "Crypto exchange. Clean blue identity, trust-focused, institutional feel", color: "#0052ff" },
+  { cat: "Fintech & Crypto", name: "Kraken", slug: "kraken", desc: "Crypto trading platform. Purple-accented dark UI, data-dense dashboards", color: "#7132f5" },
+  { cat: "Fintech & Crypto", name: "Mastercard", slug: "mastercard", desc: "Global payments network. Warm cream canvas, orbital pill shapes, editorial warmth", color: "#eb001b" },
+  { cat: "Fintech & Crypto", name: "Revolut", slug: "revolut", desc: "Digital banking. Sleek dark interface, gradient cards, fintech precision", color: "#191c1f" },
+  { cat: "Fintech & Crypto", name: "Stripe", slug: "stripe", desc: "Payment infrastructure. Signature purple gradients, weight-300 elegance", color: "#635bff" },
+  { cat: "Fintech & Crypto", name: "Wise", slug: "wise", desc: "International money transfer. Bright green accent, friendly and clear", color: "#9fe870" },
+
+  // E-commerce & Retail
+  { cat: "E-commerce", name: "Airbnb", slug: "airbnb", desc: "Travel marketplace. Warm coral accent, photography-driven, rounded UI", color: "#ff385c" },
+  { cat: "E-commerce", name: "Meta", slug: "meta", desc: "Tech retail store. Photography-first, binary light/dark surfaces, Meta Blue CTAs", color: "#1877f2" },
+  { cat: "E-commerce", name: "Nike", slug: "nike", desc: "Athletic retail. Monochrome UI, massive uppercase Futura, full-bleed photography", color: "#111" },
+  { cat: "E-commerce", name: "Shopify", slug: "shopify", desc: "E-commerce platform. Dark-first cinematic, neon green accent, ultra-light display", color: "#95bf47" },
+
+  // Media & Consumer Tech
+  { cat: "Media & Tech", name: "Apple", slug: "apple", desc: "Consumer electronics. Premium white space, SF Pro, cinematic imagery", color: "#000" },
+  { cat: "Media & Tech", name: "IBM", slug: "ibm", desc: "Enterprise technology. Carbon design system, structured blue palette", color: "#0f62fe" },
+  { cat: "Media & Tech", name: "NVIDIA", slug: "nvidia", desc: "GPU computing. Green-black energy, technical power aesthetic", color: "#76b900" },
+  { cat: "Media & Tech", name: "Pinterest", slug: "pinterest", desc: "Visual discovery platform. Red accent, masonry grid, image-first", color: "#e60023" },
+  { cat: "Media & Tech", name: "PlayStation", slug: "playstation", desc: "Gaming console retail. Three-surface channel layout, cyan hover-scale interaction", color: "#00d4ff" },
+  { cat: "Media & Tech", name: "SpaceX", slug: "spacex", desc: "Space technology. Stark black and white, full-bleed imagery, futuristic", color: "#0d0d0d" },
+  { cat: "Media & Tech", name: "Spotify", slug: "spotify", desc: "Music streaming. Vibrant green on dark, bold type, album-art-driven", color: "#1db954" },
+  { cat: "Media & Tech", name: "The Verge", slug: "theverge", desc: "Tech editorial media. Acid-mint and ultraviolet accents, Manuka display type", color: "#5200ff" },
+  { cat: "Media & Tech", name: "Uber", slug: "uber", desc: "Mobility platform. Bold black and white, tight type, urban energy", color: "#000" },
+  { cat: "Media & Tech", name: "Vodafone", slug: "vodafone", desc: "Global telecom brand. Monumental uppercase display, Vodafone Red chapter bands", color: "#e60000" },
+  { cat: "Media & Tech", name: "WIRED", slug: "wired", desc: "Tech magazine. Paper-white broadsheet density, custom serif, ink-blue links", color: "#0000ff" },
+
+  // Automotive
+  { cat: "Automotive", name: "BMW", slug: "bmw", desc: "Luxury automotive. Dark premium surfaces, precise German engineering aesthetic", color: "#1c69d4" },
+  { cat: "Automotive", name: "Bugatti", slug: "bugatti", desc: "Luxury hypercar. Cinema-black canvas, monochrome austerity, monumental display type", color: "#0a0a0a" },
+  { cat: "Automotive", name: "Ferrari", slug: "ferrari", desc: "Luxury automotive. Chiaroscuro black-white editorial, Ferrari Red with extreme sparseness", color: "#ff2800" },
+  { cat: "Automotive", name: "Lamborghini", slug: "lamborghini", desc: "Luxury automotive. True black cathedral, gold accent, LamboType custom Neo-Grotesk", color: "#d4af37" },
+  { cat: "Automotive", name: "Renault", slug: "renault", desc: "French automotive. Vivid aurora gradients, NouvelR typeface, zero-radius buttons", color: "#ffcc00" },
+  { cat: "Automotive", name: "Tesla", slug: "tesla", desc: "Electric vehicles. Radical subtraction, cinematic full-viewport photography, Universal Sans", color: "#cc0000" },
+];
+
+const BASE_URL = "https://getdesign.md";
+
+// State
+let activeCat = "All";
+let query = "";
+
+// Helpers
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => document.querySelectorAll(sel);
+
+function toast(msg) {
+  const t = $("#toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 1400);
+}
+
+function previewMark(item) {
+  const initials = item.name.replace(/[^A-Za-z]/g, "").slice(0, 2).toUpperCase() || item.name.slice(0, 2);
+  // derive text color based on bg luminance
+  const hex = (item.color || "#444").replace("#", "");
+  const r = parseInt(hex.slice(0, 2), 16) || 0;
+  const g = parseInt(hex.slice(2, 4), 16) || 0;
+  const b = parseInt(hex.slice(4, 6), 16) || 0;
+  const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  const textColor = lum > 0.55 ? "#111" : "#fff";
+  const bg = `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 60%, ${item.color}99 100%)`;
+  return { initials, bg, textColor };
+}
+
+function renderFilters() {
+  const cats = ["All", ...new Set(DATA.map((d) => d.cat))];
+  $("#filters").innerHTML = cats
+    .map(
+      (c) =>
+        `<button class="chip ${c === activeCat ? "active" : ""}" data-cat="${c}">${c}</button>`
+    )
+    .join("");
+  $$("#filters .chip").forEach((el) =>
+    el.addEventListener("click", () => {
+      activeCat = el.dataset.cat;
+      renderFilters();
+      renderGrid();
+    })
+  );
+}
+
+function renderGrid() {
+  const q = query.trim().toLowerCase();
+  const list = DATA.filter((d) => {
+    const catOk = activeCat === "All" || d.cat === activeCat;
+    const qOk = !q || d.name.toLowerCase().includes(q) || d.desc.toLowerCase().includes(q) || d.slug.toLowerCase().includes(q);
+    return catOk && qOk;
+  });
+  $("#count").textContent = `${list.length} / ${DATA.length}`;
+
+  $("#grid").innerHTML = list
+    .map((item, idx) => {
+      const { initials, bg, textColor } = previewMark(item);
+      return `
+        <article class="card" data-slug="${item.slug}">
+          <div class="card-preview" style="background: ${bg}">
+            <div class="mark" style="color: ${textColor}">${initials}</div>
+          </div>
+          <div class="card-body">
+            <div class="card-cat">${item.cat}</div>
+            <div class="card-title">${item.name}</div>
+            <div class="card-desc">${item.desc}</div>
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+
+  $$("#grid .card").forEach((el) =>
+    el.addEventListener("click", () => openModal(el.dataset.slug))
+  );
+}
+
+// Modal
+let currentItem = null;
+let currentMode = "light";
+
+function openModal(slug) {
+  const item = DATA.find((d) => d.slug === slug);
+  if (!item) return;
+  currentItem = item;
+  currentMode = "light";
+
+  $("#m-title").textContent = item.name;
+  $("#m-cat").textContent = item.cat;
+  const installCmd = `npx getdesign@latest add ${item.slug}`;
+  $("#m-install").textContent = installCmd;
+  $("#m-open").href = `${BASE_URL}/${item.slug}/design-md`;
+  $("#m-fallback-link").href = `${BASE_URL}/${item.slug}/design-md`;
+
+  setMode("light");
+  $("#modal").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+  $("#modal").classList.remove("open");
+  $("#m-frame").src = "about:blank";
+  document.body.style.overflow = "";
+}
+
+function setMode(mode) {
+  currentMode = mode;
+  $$(".modal-tabs .tab").forEach((t) =>
+    t.classList.toggle("active", t.dataset.mode === mode)
+  );
+  if (!currentItem) return;
+  let url = `${BASE_URL}/${currentItem.slug}/design-md`;
+  // getdesign.md 미리보기는 페이지 내부에서 라이트/다크를 토글하므로 같은 URL 사용
+  $("#m-fallback").classList.remove("show");
+  $("#m-frame").style.display = "block";
+  $("#m-frame").src = url;
+}
+
+// Iframe error detection (best-effort)
+let frameLoadTimer = null;
+$("#m-frame").addEventListener("load", () => {
+  // getdesign.md는 X-Frame-Options로 차단될 수 있음 → 로드 실패 감지 어려움
+  // 간단히 사용자가 "새 탭" 버튼으로 fallback 가능
+});
+
+// Events
+$("#search").addEventListener("input", (e) => {
+  query = e.target.value;
+  renderGrid();
+});
+$("#theme-toggle").addEventListener("click", () => {
+  const cur = document.body.dataset.theme;
+  document.body.dataset.theme = cur === "dark" ? "light" : "dark";
+});
+$("#m-close").addEventListener("click", closeModal);
+$("#modal").addEventListener("click", (e) => {
+  if (e.target.id === "modal") closeModal();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && $("#modal").classList.contains("open")) closeModal();
+});
+$$(".modal-tabs .tab").forEach((t) =>
+  t.addEventListener("click", () => setMode(t.dataset.mode))
+);
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-copy]");
+  if (!btn) return;
+  const txt = $("#m-install").textContent;
+  navigator.clipboard.writeText(txt).then(() => toast("설치 커맨드 복사됨"));
+});
+
+// Init
+renderFilters();
+renderGrid();
+</script>
+</body>
+</html>
